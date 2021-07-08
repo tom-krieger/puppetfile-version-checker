@@ -9,6 +9,7 @@ class OptionParser
     options.exclude    = []
 
     opt_parser = OptionParser.new do |opts|
+
       opts.on("-p", "--puppetfile PUPPETFILE", "Puppetfile to read with full path") do |puppetfile|
         options.puppetfile = puppetfile || ''
       end
@@ -29,10 +30,7 @@ class OptionParser
         options.update = v
       end
 
-      # No argument, shows at tail.  This will print an options summary.
-      # Try it and see!
       opts.on_tail("-h", "--help", "Show this message") do
-        puts opts
         exit 1
       end
     end
@@ -42,10 +40,11 @@ class OptionParser
       options
     rescue Exception => e
       puts
-      puts e
+      puts e.message
       puts
       puts opt_parser
-      raise e
+      puts
+      exit 1
     end
   end
 end
