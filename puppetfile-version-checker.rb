@@ -31,14 +31,14 @@ else
   fhupd = nil
 end
 
-Utilities.writeLine(fh, sprintf("%-40s %10s %10s %s\n", ' ', 'Puppetfile', 'Forge', ''))
-Utilities.writeLine(fh, sprintf("%-40s %10s %10s %s\n", 'Module slug', 'Version', 'Version', 'Comment'))
-Utilities.writeLine(fh, sprintf("%-40s %10s %10s %s\n", '----------------------------------------',
-                                '----------', '----------', '--------------------'))
+Utilities.write_line(fh, sprintf("%-40s %10s %10s %s\n", ' ', 'Puppetfile', 'Forge', ''))
+Utilities.write_line(fh, sprintf("%-40s %10s %10s %s\n", 'Module slug', 'Version', 'Version', 'Comment'))
+Utilities.write_line(fh, sprintf("%-40s %10s %10s %s\n", '----------------------------------------',
+                                 '----------', '----------', '--------------------'))
 
-cntNew        = 0
-cntDeprecated = 0
-filecontent   = File.readlines(options.puppetfile)
+cnt_new        = 0
+cnt_deprecated = 0
+filecontent    = File.readlines(options.puppetfile)
 filecontent.each do |line|
 
   if line =~ %r{^mod.*(\"|\')(.*).*(\"|\').*,.*(\"|\')\d\.\d\.\d(\"|\')}
@@ -51,33 +51,42 @@ filecontent.each do |line|
     deprecated  = data[:deprecated]
 
     if deprecated == 'yes'
-      msg           = 'deprecated!'
-      cntDeprecated = cntDeprecated + 1
-      Utilities.writeUpdate(fhupd, "# module deprecated\n")
-      Utilities.writeUpdate(fhupd, "# #{line}")
+      msg            = 'deprecated!'
+      cnt_deprecated = cnt_deprecated + 1
+      Utilities.write_update(fhupd, "# module deprecated\n")
+      Utilities.write_update(fhupd, "# #{line}")
     elsif vers != cur_version
-      msg    = 'new version available'
-      cntNew = cntNew + 1
-      Utilities.writeUpdate(fhupd, line.sub(vers, cur_version))
+      msg     = 'new version available'
+      cnt_new = cnt_new + 1
+      Utilities.write_update(fhupd, line.sub(vers, cur_version))
     else
       msg = ''
-      Utilities.writeUpdate(fhupd, line)
+      Utilities.write_update(fhupd, line)
     end
 
-    Utilities.writeLine(fh, sprintf("%-40s %10s %10s %s\n", mod, vers, cur_version, msg))
+    Utilities.write_line(fh, sprintf("%-40s %10s %10s %s\n", mod, vers, cur_version, msg))
 
   else
-    Utilities.writeUpdate(fhupd, line)
+    Utilities.write_update(fhupd, line)
   end
+
 end
 
-Utilities.writeLine(fh, "\n\n")
-Utilities.writeLine(fh, "Puppetfile summary:\n")
-Utilities.writeLine(fh, sprintf("%5d modules with newer versions available at Puppet Forge\n", cntNew))
-Utilities.writeLine(fh, sprintf("%5d modules are deprecated\n", cntDeprecated))
-Utilities.writeLine(fh, "\n")
+Utilities.write_line(fh, "\n\n")
+Utilities.write_line(fh, "Puppetfile summary:\n")
+Utilities.write_line(fh, sprintf("%5d modules with newer versions available at Puppet Forge\n", cnt_new))
+Utilities.write_line(fh, sprintf("%5d modules are deprecated\n", cnt_deprecated))
+Utilities.write_line(fh, "\n")
 
-fh.close() if !fh.nil?
-fhupd.close() if !fhupd.nil?
+fh.close unless fh.nil?
+fhupd.close unless fhupd.nil?
 
-exit 0
+if cnt_deprecated >= 0 && cnt_new >= 0
+  exit 5
+elsif cnt_deprecated > 0
+  exit 3
+elsif cnt_new > 0
+  exit 4
+else
+  exit 0
+end

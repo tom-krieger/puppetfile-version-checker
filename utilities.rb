@@ -1,8 +1,9 @@
 class Utilities
 
-  def self.writeLine(fh, line)
+  # write line to report
+  def self.write_line(fh, line)
 
-    if fh.nil? then
+    if fh.nil?
       puts line
     else
       fh.write(line)
@@ -10,9 +11,11 @@ class Utilities
 
   end
 
-  def self.writeUpdate(fh, line)
 
-    if !fh.nil? then
+  # write line to updated Puppetfile
+  def self.write_update(fh, line)
+
+    unless fh.nil?
       fh.write(line)
     end
 

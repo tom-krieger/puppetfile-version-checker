@@ -4,8 +4,8 @@ class OptionParser
     options            = OpenStruct.new
     options.puppetfile = ''
     options.reportfile = ''
-    options.update = false
-    options.output = ''
+    options.update     = false
+    options.output     = ''
 
     opt_parser = OptionParser.new do |opts|
       opts.on("-p", "--puppetfile PUPPETFILE", "Puppetfile to read with full path") do |puppetfile|
@@ -33,7 +33,7 @@ class OptionParser
     end
 
     begin
-      opt_parser.parse!(ARGV)
+      opt_parser.parse!(args)
       options
     rescue Exception => e
       puts

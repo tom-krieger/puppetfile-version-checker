@@ -4,7 +4,8 @@ Check your Puppetfile for outdated or deprecated Puppet Forge modules.
 
 ## Usage
 
-The puppet-version-checker was tested with Ruby 2.7.0.
+The puppet-version-checker was tested with Ruby 2.7.0. 
+Parsing of Puppetfiles might need some updates.
 
 ### Requirements
 
@@ -24,3 +25,11 @@ The puppet-version-checker was tested with Ruby 2.7.0.
 ```bash
 ./puppetfile-version-checker -p /var/tmp/Puppetfile -r /var/tmp/report.txt 
 ```
+
+### Return code
+
+`0` Everything ok
+`1` wrong parmeters or help called
+`3` deprecated modules found
+`4` modules with newer versions found
+`5` deprecated and newer versions found

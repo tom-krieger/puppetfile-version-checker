@@ -3,7 +3,7 @@ class ForgeClient
 
   base_uri 'https://forgeapi.puppet.com'
 
-
+  # call forgeapi with module slug and extract version and deprecation date
   def self.get_current_module_data(mod)
     ret      = {}
     uri      = "/v3/modules/#{mod}"
