@@ -33,25 +33,36 @@ Parsing of Puppetfiles might need some updates.
 * `-u | --update` Update Puppetfile with new versions and comment deprecated modules. This option requires -o as the updated content will be written to a new file
 * `-o | --output` Full path to the new Puppetfile
 * `-e | --exclude` Module slugs not to update or comment on deprecation. The modules will be listed in the report with deprecation warning or new version.
+* `-h | --help` You know ;)
 
-### Example
+### Examples
 
+Create a new Puppetfile together with a report and exclude some mudules.
 ```bash
 ./puppetfile-version-checker -p Puppetfile -u
-                             -o Puppetfile.updated 
-                             -r report.txt
+                             -o /var/tmp/Puppetfile.updated 
+                             -r /var/tmp/report.txt
                              -e WhatsARanjit-node_manager
                              -e herculesteam-augeasproviders 
+```
+
+Just create a report on STDOUT.
+```bash
+./puppetfile-version-checker -p Puppetfile
 ```
 
 ### Return code
 
 `0` Everything ok
 
-`1` wrong parmeters or help called
+`1` wrong options or help called
 
 `3` deprecated modules found
 
 `4` modules with newer versions found
 
 `5` deprecated and newer versions found
+
+## Limitations
+
+Currently the checker works only with Puppet Forge and can not deal with private Puppet Module repositories.
