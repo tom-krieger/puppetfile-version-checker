@@ -53,12 +53,20 @@ filecontent.each do |line|
     if deprecated == 'yes'
       msg            = 'deprecated!'
       cnt_deprecated = cnt_deprecated + 1
-      Utilities.write_update(fhupd, "# module deprecated\n")
-      Utilities.write_update(fhupd, "# #{line}")
+      unless options.exclude.include?(mod)
+        Utilities.write_update(fhupd, "# module deprecated\n")
+        Utilities.write_update(fhupd, "# #{line}")
+      else
+        Utilities.write_update(fhupd, line)
+      end
     elsif vers != cur_version
       msg     = 'new version available'
       cnt_new = cnt_new + 1
-      Utilities.write_update(fhupd, line.sub(vers, cur_version))
+      unless options.exclude.include?(mod)
+        Utilities.write_update(fhupd, line.sub(vers, cur_version))
+      else
+        Utilities.write_update(fhupd, line)
+      end
     else
       msg = ''
       Utilities.write_update(fhupd, line)

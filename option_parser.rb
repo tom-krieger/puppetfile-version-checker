@@ -6,6 +6,7 @@ class OptionParser
     options.reportfile = ''
     options.update     = false
     options.output     = ''
+    options.exclude    = []
 
     opt_parser = OptionParser.new do |opts|
       opts.on("-p", "--puppetfile PUPPETFILE", "Puppetfile to read with full path") do |puppetfile|
@@ -18,6 +19,10 @@ class OptionParser
 
       opts.on("-o", "--output OUTPUTFILE", "File to write new Puppetfile content (required with -u)") do |outputfile|
         options.output = outputfile || ''
+      end
+
+      opts.on("-e", "--exclude MODULESLUG", "Modules to be excluded") do |exclude|
+        options.exclude.push(exclude)
       end
 
       opts.on("-u", "--update", "Create updated Puppetfile (optional)") do |v|
@@ -39,7 +44,7 @@ class OptionParser
       puts
       puts e
       puts
-      puts opt_parser‚
+      puts opt_parser
       raise e
     end
   end
