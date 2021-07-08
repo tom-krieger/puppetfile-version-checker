@@ -4,8 +4,8 @@ Check your Puppetfile for outdated or deprecated Puppet Forge modules.
 
 The Puppetfile version checker can create an updated Puppetfile with updated versions and commented deprecated modules. 
 Or it creates just a report with deprecated modules and modules having newer versions available.
-If there are modules in the Puppetfile which should not be removed or get updated versions, these modules can be put in 
-an exclude list.
+If there are modules in the Puppetfile which should not be removed in case of deprecation or get updated versions, 
+these modules can be put in an exclude list.
 
 The puppet-version-checker was tested with Ruby 2.7.0.
 Parsing of Puppetfiles might need some updates.
