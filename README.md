@@ -12,7 +12,7 @@ Parsing of Puppetfiles might need some updates.
 
 ### Requirements
 
-* RUBY 2.7.0 (it's tested with Ruby 2.7.0)
+* Ruby 2.7.0 (it's tested with Ruby 2.7.0)
 * gem 'httparty'
 * gem 'optparse'
 * gem 'ostruct'
