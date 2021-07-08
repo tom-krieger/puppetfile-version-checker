@@ -47,9 +47,11 @@ Parsing of Puppetfiles might need some updates.
 ### Return code
 
 `0` Everything ok
-`1` wrong parmeters or help called
-`3` deprecated modules found
-`4` modules with newer versions found
-`5` deprecated and newer versions found
 
-##
+`1` wrong parmeters or help called
+
+`3` deprecated modules found
+
+`4` modules with newer versions found
+
+`5` deprecated and newer versions found
