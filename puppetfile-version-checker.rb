@@ -5,6 +5,7 @@ $LOAD_PATH << File.expand_path(File.dirname(__FILE__))
 require 'httparty'
 require 'optparse'
 require 'ostruct'
+require 'yaml'
 require 'forge_client'
 require 'option_parser'
 require 'utilities'
@@ -44,9 +45,9 @@ cnt_deprecated = 0
 filecontent    = File.readlines(options.puppetfile)
 filecontent.each do |line|
 
-  if line =~ %r{^mod.*(\"|\')(.*).*(\"|\').*,.*(\"|\')\d\.\d\.\d(\"|\')}
+  if line =~ %r{^mod.*["'](.*).*["'].*,.*["']\d\.\d\.\d["']}
 
-    m           = line.match(%r{^mod.*(\"|\')(?<mod>.*).*(\"|\').*,.*(\"|\')(?<version>\d\.\d\.\d)(\"|\')})
+    m           = line.match(%r{^mod.*["'](?<mod>.*).*["'].*,.*["'](?<version>\d\.\d\.\d)["']})
     mod         = m[:mod].sub('/', '-')
     vers        = m[:version]
     data        = ForgeClient.get_current_module_data(mod)
