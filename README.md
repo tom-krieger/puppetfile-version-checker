@@ -10,12 +10,31 @@ these modules can be put in an exclude list.
 The puppet-version-checker was tested with Ruby 2.7.0.
 Parsing of Puppetfiles might need some updates.
 
-### Requirements
+## Requirements
 
 * Ruby 2.7.0 (it's tested with Ruby 2.7.0)
 * gem 'httparty'
 * gem 'optparse'
 * gem 'ostruct'
+
+## Configuration file
+
+```yaml
+---
+forge:
+  url: https://forgeapi.puppet.com
+  #proxy_url: x.x.x.x
+  #proxy_port: 3128
+  #proxy_user: a_user
+  #proxy_pass: a_password
+```
+
+The `config.yaml` file has to be located in the same place as the Ruby script.
+Currently the configuration file contains settings for the Forge API and for a proxy. 
+The proxy needs at least the url and the port.
+
+If there is no config.yaml found, the default values are used. This is using the well 
+known Forge API URL and no proxy settings.
 
 ## Usage
 

@@ -1,0 +1,7 @@
+---
+forge:
+  url: https://forgeapi.puppet.com
+  #proxy_url: x.x.x.x
+  #proxy_port: 3128
+  #proxy_user: a_user
+  #proxy_pass: a_password
