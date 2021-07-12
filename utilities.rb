@@ -44,25 +44,25 @@ class Utilities
       msg            = 'deprecated!'
       cnt_deprecated = 1
       unless options.exclude.include?(mod)
-        Utilities.write_update(fhupd, "# module deprecated\n")
-        Utilities.write_update(fhupd, "# #{line}")
+        self.write_update(fhupd, "# module deprecated\n")
+        self.write_update(fhupd, "# #{line}")
       else
-        Utilities.write_update(fhupd, line)
+        self.write_update(fhupd, line)
       end
     elsif (vers != cur_version) && (vers != ':latest')
       msg     = 'new version available'
       cnt_new = 1
       unless options.exclude.include?(mod)
-        Utilities.write_update(fhupd, line.sub(vers, cur_version))
+        self.write_update(fhupd, line.sub(vers, cur_version))
       else
-        Utilities.write_update(fhupd, line)
+        self.write_update(fhupd, line)
       end
     else
       msg = ''
-      Utilities.write_update(fhupd, line)
+      self.write_update(fhupd, line)
     end
 
-    Utilities.write_line(fh, sprintf("%-40s %10s %10s %s\n", mod, vers, cur_version, msg))
+    self.write_line(fh, sprintf("%-40s %10s %10s %s\n", mod, vers, cur_version, msg))
 
     counter['new']        = cnt_new
     counter['deprecated'] = cnt_deprecated
