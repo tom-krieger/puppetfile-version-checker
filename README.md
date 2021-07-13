@@ -16,6 +16,7 @@ Parsing of Puppetfiles might need some updates.
 * gem 'httparty'
 * gem 'optparse'
 * gem 'ostruct'
+* gem 'yaml'
 
 ## Configuration file
 
