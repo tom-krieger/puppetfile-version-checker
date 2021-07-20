@@ -1,0 +1,13 @@
+.gitignore
+devops/
+.bundle
+vendor/
+build_container.sh
+Puppet*
+rep*
+*.md
+Gemfile.lock
+_old_code
+.dockerignore
+.git
+.idea
