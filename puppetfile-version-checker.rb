@@ -10,7 +10,7 @@ require 'forge_client'
 require 'option_parser'
 require 'utilities'
 
-options = OptionParser.parse(ARGV)
+options = OptionParser.parse(ARGV, 'puppet')
 
 if options.puppetfile == ''
   puts 'No Puppetfile to analyze!'
@@ -32,12 +32,12 @@ else
   fhupd = nil
 end
 
-Utilities.write_line(fh, sprintf("%-40s %10s %10s %s\n", ' ',
+Utilities.write_line(fh, sprintf("%-50s %10s %10s %s\n", ' ',
                                  'Puppetfile', 'Forge', ''))
-Utilities.write_line(fh, sprintf("%-40s %10s %10s %s\n",
+Utilities.write_line(fh, sprintf("%-50s %10s %10s %s\n",
                                  'Module slug', 'Version', 'Version', 'Comment'))
-Utilities.write_line(fh, sprintf("%-40s %10s %10s %s\n",
-                                 '----------------------------------------', '----------',
+Utilities.write_line(fh, sprintf("%-50s %10s %10s %s\n",
+                                 '--------------------------------------------------', '----------',
                                  '----------', '--------------------'))
 
 cnt_new        = 0

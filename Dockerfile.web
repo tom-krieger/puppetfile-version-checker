@@ -1,0 +1,36 @@
+FROM ruby:2.7
+
+MAINTAINER Thomas Krieger <tom@tom-krieger.de>
+LABEL Description="Docker container for Whiskey API" Version="0.1.0"
+
+RUN apt -y install unzip dirmngr gnupg
+RUN apt-key adv --keyserver hkp://keyserver.ubuntu.com:80 --recv-keys 561F9B9CAC40B2F7
+RUN apt install -y apt-transport-https ca-certificates
+RUN sh -c 'echo deb https://oss-binaries.phusionpassenger.com/apt/passenger bullseye main > /etc/apt/sources.list.d/passenger.list'
+RUN apt-get update
+RUN apt install -y libapache2-mod-passenger apache2
+RUN /usr/sbin/a2enmod passenger
+RUN mkdir /opt/puppetfile-checker-api
+#ADD . /opt/puppetfile-checker-api/
+COPY api /opt/puppetfile-checker-api/api
+COPY classes /opt/puppetfile-checker-api/classes
+COPY lib /opt/puppetfile-checker-api/lib
+COPY config.ru /opt/puppetfile-checker-api/config.ru
+COPY config.yaml.tpl /opt/puppetfile-checker-api/config.yaml
+COPY entrypoint-web.sh /opt/puppetfile-checker-api/entrypoint-web.sh
+COPY Gemfile /opt/puppetfile-checker-api/Gemfile
+COPY my_app.rb /opt/puppetfile-checker-api/my_app.rb
+COPY 000-default.conf /etc/apache2/sites-available/
+COPY envvars /etc/apache2/
+RUN chmod 755 /opt/puppetfile-checker-api ; \
+    cd /opt/puppetfile-checker-api ; \
+    bundler install
+RUN chown -R www-data:www-data /opt/puppetfile-checker-api
+RUN chmod 755 /opt/puppetfile-checker-api/entrypoint-web.sh
+RUN mkdir /var/run/passenger-instreg ; \
+    chown www-data:www-data /var/run/passenger-instreg ; \
+    chmod 755 /var/run/passenger-instreg
+
+WORKDIR /opt/puppetfile-checker-api
+
+ENTRYPOINT [ "/opt/puppetfile-checker-api/entrypoint-web.sh" ]

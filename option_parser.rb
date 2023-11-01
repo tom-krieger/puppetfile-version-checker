@@ -1,6 +1,6 @@
 class OptionParser
 
-  def self.parse(args)
+  def self.parse_puppet(args)
     options            = OpenStruct.new
     options.puppetfile = ''
     options.reportfile = ''
@@ -46,5 +46,45 @@ class OptionParser
       puts
       exit 1
     end
+  end
+
+  def self.parse_fixture(args)
+    options            = OpenStruct.new
+    options.fixturesfile = ''
+
+    opt_parser = OptionParser.new do |opts|
+
+      opts.on("-f", "--fixturesfile FIXTURESFILE", "Fixtures file to read with full path") do |fixturesfile|
+        options.fixturesfile = fixturesfile || ''
+      end
+
+      opts.on_tail("-h", "--help", "Show this message") do
+        exit 1
+      end
+    end
+
+    begin
+      opt_parser.parse!(args)
+      options
+    rescue Exception => e
+      puts
+      puts e.message
+      puts
+      puts opt_parser
+      puts
+      exit 1
+    end
+  end
+
+  def self.parse(args, type='puppet')
+    if type == 'puppet'
+      ret = self.parse_puppet(args)
+    elsif type == 'fixtures'
+      ret = self.parse_fixture(args)
+    else
+      ret = nil
+    end
+
+    ret
   end
 end

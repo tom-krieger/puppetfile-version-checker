@@ -62,7 +62,7 @@ class Utilities
       self.write_update(fhupd, line)
     end
 
-    self.write_line(fh, sprintf("%-40s %10s %10s %s\n", mod, vers, cur_version, msg))
+    self.write_line(fh, sprintf("%-50s %10s %10s %s\n", mod, vers, cur_version, msg))
 
     counter['new']        = cnt_new
     counter['deprecated'] = cnt_deprecated

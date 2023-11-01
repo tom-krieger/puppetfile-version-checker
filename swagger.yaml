@@ -1,0 +1,93 @@
+---
+swagger: "2.0"
+info:
+  description: "This is the Puppetfile checker Backend"
+  version: "1.0.0"
+  title: "Puppetfile checker backend API"
+  termsOfService: "http://swagger.io/terms/"
+  contact:
+    email: "tom@tom-krieger.de"
+  license:
+    name: "Apache 2.0"
+    url: "http://www.apache.org/licenses/LICENSE-2.0.html"
+host: "puppetfilecheckerapi.tom-krieger.de"
+basePath: "/api/v1"
+tags:
+- name: "Puppetfile"
+  description: "Everything about Puppetfile checking"
+  externalDocs:
+    description: "Find out more"
+    url: "http://swagger.io"
+schemes:
+- "https"
+paths:
+  /puppetfile-check:
+    post:
+      tags:
+      - "Puppetfile"
+      summary: "Upload a Puppetfile and check file"
+      description: "Check a Puppetfile for deprecated modules or outdated modules"
+      operationId: "checkPuppetFile"
+      consumes:
+      - "multipart/form-data"
+      produces:
+      - "application/json"
+      parameters:
+      - name: "upload"
+        in: "formData"
+        description: "Puppetfile content"
+        required: true
+        type: "file"
+      - name: "exclude"
+        in: "formData"
+        description: "Comma separated list of modules to exclude"
+        required: false
+        type: "string"
+      - name: "update"
+        in: "formData"
+        description: "Create an updated Puppetfile"
+        required: false
+        type: "boolean"
+      responses:
+        "200":
+          description: "Successful operation"
+        "400":
+          description: "Invalid data"
+        "403":
+          description: "Access denied"
+securityDefinitions:
+  bearerAuth:
+    type: "apiKey"
+    name: "access_token"
+    in: "header"
+definitions:
+  Puppetfile:
+    type: "object"
+    properties:
+      upload:
+        type: "file"
+        example: "Puppet file content"
+        description: "Content of Puppefile"
+      exclude:
+        type: "string"
+        example: "puppetlabs-dsc,example42-networking"
+        description: "Comme separated list of modules to exclude"
+      update:
+        type: "boolean"
+        example: true
+        description: "Create an updated Puppetfile"
+  ApiResponse:
+    type: "object"
+    properties:
+      code:
+        type: "integer"
+        format: "int32"
+      type:
+        type: "string"
+      message:
+        type: "string"
+    xml:
+      name: "##default"
+externalDocs:
+  description: "Find out more about Swagger"
+  url: "http://swagger.io"
