@@ -1,8 +1,8 @@
 #!/bin/bash
 
-REGISTRY="docker.home.tom-krieger.de"
+REGISTRY="docker.tom-krieger.de"
 NAME="puppetfile-version-checker-api"
-VERSION="0.1.0"
+VERSION="0.1.4"
 
 if [ $# -ne 1 ] ; then
   prog=`basename $0`
@@ -10,7 +10,7 @@ if [ $# -ne 1 ] ; then
   exit 2
 fi
 
-docker build -t ${NAME}:${VERSION} Dockerfile.web
+docker build -t ${NAME}:${VERSION} -f Dockerfile-web .
 
 if [ "${1}" = "y" ] ; then
   docker tag ${NAME}:${VERSION} "${REGISTRY}/${NAME}:${VERSION}"

@@ -44,6 +44,8 @@ MyApp.add_route('POST', '/api/v1/puppetfile-check', {
       pfobj.analyse
       data = pfobj.create_zip
 
+      self.content_type 'application/zip'
+      self.attachment "puppetfile-checker.zip"
       self.status 200
       data
     else

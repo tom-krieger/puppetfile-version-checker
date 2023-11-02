@@ -1,7 +1,7 @@
 FROM ruby:2.7
 
 MAINTAINER Thomas Krieger <tom@tom-krieger.de>
-LABEL Description="Docker container for Whiskey API" Version="0.1.0"
+LABEL Description="Docker container for Puppetfile Checker API" Version="0.1.0"
 
 RUN apt -y install unzip dirmngr gnupg
 RUN apt-key adv --keyserver hkp://keyserver.ubuntu.com:80 --recv-keys 561F9B9CAC40B2F7
@@ -11,10 +11,11 @@ RUN apt-get update
 RUN apt install -y libapache2-mod-passenger apache2
 RUN /usr/sbin/a2enmod passenger
 RUN mkdir /opt/puppetfile-checker-api
-#ADD . /opt/puppetfile-checker-api/
 COPY api /opt/puppetfile-checker-api/api
 COPY classes /opt/puppetfile-checker-api/classes
 COPY lib /opt/puppetfile-checker-api/lib
+COPY utilities.rb /opt/puppetfile-checker-api/utilities.rb
+COPY forge_client.rb /opt/puppetfile-checker-api/forge_client.rb
 COPY config.ru /opt/puppetfile-checker-api/config.ru
 COPY config.yaml.tpl /opt/puppetfile-checker-api/config.yaml
 COPY entrypoint-web.sh /opt/puppetfile-checker-api/entrypoint-web.sh
@@ -28,8 +29,9 @@ RUN chmod 755 /opt/puppetfile-checker-api ; \
 RUN chown -R www-data:www-data /opt/puppetfile-checker-api
 RUN chmod 755 /opt/puppetfile-checker-api/entrypoint-web.sh
 RUN mkdir /var/run/passenger-instreg ; \
-    chown www-data:www-data /var/run/passenger-instreg ; \
-    chmod 755 /var/run/passenger-instreg
+    mkdir /opt/puppetfile-checker-api/work; \
+    chown www-data:www-data /var/run/passenger-instreg mkdir /opt/puppetfile-checker-api/work ; \
+    chmod 755 /var/run/passenger-instreg /opt/puppetfile-checker-api/work
 
 WORKDIR /opt/puppetfile-checker-api
 
