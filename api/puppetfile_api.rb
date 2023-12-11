@@ -33,7 +33,6 @@ MyApp.add_route('POST', '/api/v1/puppetfile-check', {
     self.headers "Content-Type" => "application/zip"
 
     params[:exclude] ? exclude = params[:exclude] : exclude = ''
-    excludes = exclude.split(',')
     params[:update] ? update = params[:update] : update = false
 
     if params[:upload]
@@ -60,3 +59,17 @@ MyApp.add_route('POST', '/api/v1/puppetfile-check', {
 
 end
 
+MyApp.add_route('OPTIONS', '/api/v1/puppetfile-check', {
+  "resourcePath"  => "/Puppetfile",
+  "summary"       => "Upload a Puppetfile and check file",
+  "nickname"      => "coption_puppet_file",
+  "responseClass" => "void",
+  "endpoint"      => "/puppetfile-check",
+  "notes"         => "Check a Puppetfile for deprecated modules or outdated modules",
+  "parameters"    => [
+  ] }) do
+  cross_origin
+
+  self.status 200
+
+end

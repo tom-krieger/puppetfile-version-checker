@@ -2,7 +2,7 @@
 
 REGISTRY="docker.tom-krieger.de"
 NAME="puppetfile-version-checker-api"
-VERSION="0.1.4"
+VERSION="0.1.6"
 
 if [ $# -ne 1 ] ; then
   prog=`basename $0`

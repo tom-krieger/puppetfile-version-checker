@@ -55,6 +55,20 @@ paths:
           description: "Invalid data"
         "403":
           description: "Access denied"
+    options:
+      tags:
+      - "Puppetfile"
+      summary: "Upload a Puppetfile and check file"
+      description: "Check a Puppetfile for deprecated modules or outdated modules"
+      operationId: "coptionPuppetFile"
+      parameters: []
+      responses:
+        "200":
+          description: "Successful operation"
+        "400":
+          description: "Invalid data"
+        "403":
+          description: "Access denied"
 securityDefinitions:
   bearerAuth:
     type: "apiKey"
@@ -65,9 +79,10 @@ definitions:
     type: "object"
     properties:
       upload:
-        type: "file"
+        type: "object"
         example: "Puppet file content"
         description: "Content of Puppefile"
+        properties: {}
       exclude:
         type: "string"
         example: "puppetlabs-dsc,example42-networking"
