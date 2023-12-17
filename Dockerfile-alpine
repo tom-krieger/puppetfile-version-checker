@@ -1,0 +1,25 @@
+#FROM ruby:2.7
+FROM docker.home.tom-krieger.de/alpine-ruby:3.2.2.1
+
+MAINTAINER Thomas Krieger <tom@tom-krieger.de>
+LABEL Description="Docker container for Puppetfile version checker" Version="2.0.0"
+
+ENV FORGEURL=""
+ENV PROXYURL=""
+ENV PROXYPORT=""
+ENV PROXYUSER=""
+ENV PROXYPASS=""
+ENV APIURL=""
+ENV APIVERSION=""
+ENV TOKEN=""
+
+RUN mkdir /opt/puppetfile-version-checker
+ADD . /opt/puppetfile-version-checker/
+RUN cd /opt/puppetfile-version-checker ; \
+    bundler install
+RUN chmod 755 /opt/puppetfile-version-checker/puppetfile-version-checker.rb \
+              /opt/puppetfile-version-checker/entrypoint.sh
+
+WORKDIR /opt/puppetfile-version-checker
+
+ENTRYPOINT [ "/opt/puppetfile-version-checker/entrypoint.sh" ]

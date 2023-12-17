@@ -5,3 +5,7 @@ forge:
   #proxy_port: 3128
   #proxy_user: a_user
   #proxy_pass: a_password
+gitlab:
+  api_version: v4
+  api_url: http://localhost
+  token: a_token

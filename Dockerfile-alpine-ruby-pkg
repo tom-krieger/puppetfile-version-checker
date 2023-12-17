@@ -1,0 +1,64 @@
+FROM alpine:3.19
+
+RUN set -eux; \
+	apk add --no-cache \
+		bzip2 \
+		ca-certificates \
+		gmp-dev \
+		libffi-dev \
+		procps \
+		yaml-dev \
+		zlib-dev \
+	;
+
+# skip installing gem documentation
+RUN set -eux; \
+	mkdir -p /usr/local/etc; \
+	{ \
+		echo 'install: --no-document'; \
+		echo 'update: --no-document'; \
+	} >> /usr/local/etc/gemrc
+
+RUN set -eux; \
+	\
+	apk add --no-cache --virtual .ruby-builddeps \
+		autoconf \
+		bison \
+		bzip2 \
+		bzip2-dev \
+		ca-certificates \
+		coreutils \
+		dpkg-dev dpkg \
+		g++ \
+		gcc \
+		gdbm-dev \
+		glib-dev \
+		libc-dev \
+		libffi-dev \
+		libxml2-dev \
+		libxslt-dev \
+		linux-headers \
+		make \
+		ncurses-dev \
+		openssl \
+		openssl-dev \
+		patch \
+		procps \
+		readline-dev \
+		ruby \
+		tar \
+		xz \
+		yaml-dev \
+		zlib-dev
+
+RUN set -eux; \
+    apk add --no-cache ruby \
+        ruby-bundler
+
+# don't create ".bundle" in all our apps
+ENV GEM_HOME /usr/local/bundle
+ENV BUNDLE_SILENCE_ROOT_WARNING=1 \
+	BUNDLE_APP_CONFIG="$GEM_HOME"
+ENV PATH $GEM_HOME/bin:$PATH
+# adjust permissions of a few directories for running "gem install" as an arbitrary user
+RUN mkdir -p "$GEM_HOME" && chmod 1777 "$GEM_HOME"

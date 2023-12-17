@@ -34,15 +34,19 @@ class PuppetFileCheck
     options.exclude = @exclude.split(',')
     cnt_new         = 0
     cnt_deprecated  = 0
+    line_continued  = 0
     filecontent     = @puppetfile
     filecontent.each do |line|
 
+      line.strip!
       if line =~ %r{^mod.*["'](.*).*["'].*,.*(["']\d\.\d\.\d["']|:latest)}
 
         counter        = Utilities.work_with_line(line, options, @local_report, @local_puppetfile)
         cnt_new        = cnt_new + counter['new']
         cnt_deprecated = cnt_deprecated + counter['deprecated']
 
+      elsif line =~ %r{,$}
+        puts "Komma"
       else
         Utilities.write_update(@local_puppetfile, line)
       end

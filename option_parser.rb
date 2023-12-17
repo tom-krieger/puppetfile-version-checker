@@ -1,11 +1,18 @@
 class OptionParser
+  # Option parser class
+  # read options from commandline and crate an options Struct
 
   def self.parse_puppet(args)
+    # parse options for Puppetfile checker
+
     options            = OpenStruct.new
     options.puppetfile = ''
     options.reportfile = ''
     options.update     = false
     options.output     = ''
+    options.verbose    = false
+    options.noforge    = false
+    options.gitlab     = false
     options.exclude    = []
 
     opt_parser = OptionParser.new do |opts|
@@ -30,6 +37,18 @@ class OptionParser
         options.update = v
       end
 
+      opts.on("-v", "--verbose", "Turn on verbose logging") do |v|
+        options.verbose = v
+      end
+
+      opts.on("", "--noforge", "Do not check modules in Puppet Forge") do |v|
+        options.noforge = v
+      end
+
+      opts.on("", "--gitlab", "Check modules agianst Gitlab") do |v|
+        options.gitlab = v
+      end
+
       opts.on_tail("-h", "--help", "Show this message") do
         exit 1
       end
@@ -48,8 +67,11 @@ class OptionParser
     end
   end
 
+
   def self.parse_fixture(args)
-    options            = OpenStruct.new
+    # parse options for fixtures file checker
+
+    options              = OpenStruct.new
     options.fixturesfile = ''
 
     opt_parser = OptionParser.new do |opts|
@@ -76,7 +98,10 @@ class OptionParser
     end
   end
 
-  def self.parse(args, type='puppet')
+
+  def self.parse(args, type = 'puppet')
+    # call appropriate parser
+
     if type == 'puppet'
       ret = self.parse_puppet(args)
     elsif type == 'fixtures'

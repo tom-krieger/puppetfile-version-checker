@@ -1,4 +1,6 @@
 class ForgeClient
+  # class with methods to talk to the Puppet Forge API
+
   include HTTParty
 
   forge_url  = 'https://forgeapi.puppet.com'
@@ -31,10 +33,13 @@ class ForgeClient
     end
   end
 
-  # call forgeapi with module slug and extract version and deprecation date
+
   def self.get_current_module_data(mod)
-    ret      = {}
-    uri      = "/v3/modules/#{mod}"
+    # call forgeapi with module slug and extract version and deprecation date
+
+    ret = {}
+    uri = "/v3/modules/#{mod}"
+
     response = get(uri)
     case response.code
     when 200..399

@@ -17,6 +17,9 @@ Parsing of Puppetfiles might need some updates.
 * gem 'optparse'
 * gem 'ostruct'
 * gem 'yaml'
+* gem 'naturally'
+* gem 'ruby2_keywords'
+* gem 'rubyzip'
 
 ## Configuration file
 
@@ -28,6 +31,10 @@ forge:
   #proxy_port: 3128
   #proxy_user: a_user
   #proxy_pass: a_password
+gitlab:
+  #api_version: v4
+  #api_url: http://gitlab-url.local/
+  #token: a_token for Gitlab access
 ```
 
 The `config.yaml` file has to be located in the same place as the Ruby script.
@@ -53,6 +60,9 @@ known Forge API URL and no proxy settings.
 * `-u | --update` Update Puppetfile with new versions and comment deprecated modules. This option requires -o as the updated content will be written to a new file
 * `-o | --output` Full path to the new Puppetfile
 * `-e | --exclude` Module slugs not to update or comment on deprecation. The modules will be listed in the report with deprecation warning or new version.
+* `-v | --verbose` More verbose logging
+* `--noforge` Do not check modules in Puppet Forge
+* `--gitlab` Check modules with Git URLS against a local Gitlab instance
 * `-h | --help` You know ;)
 
 ### Examples
@@ -136,10 +146,19 @@ environment variables are available:
 * PROXYPASS
   The proxy password if the proxy needs authentication.
 
+* APIURL
+  Gitlab URL. API will be added within the Ruby code.
+
+* APIVERSION 
+  Gitlab API version (currently v4)
+
+* TOKEN
+  Gitlab API read-only token for reading projects and repositories.
+
 Default value for all environment variables is an empty value.
 
 ## Limitations
 
-Currently the checker works only with Puppet Forge and can not deal 
-with private Puppet Module repositories, except the API behaves the 
+Currently the checker works only with Puppet Forge and Gitlab and can not deal 
+with other private Puppet Module repositories, except the API behaves the 
 same  as the Puppet Forge API.
