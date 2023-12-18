@@ -57,12 +57,7 @@ end
 # initializing what we need
 cnt_new        = 0
 cnt_deprecated = 0
-repo           = ""
-project        = ""
-tag            = ""
-tagline        = ""
 in_mod         = false
-mod            = ""
 modbuffer      = []
 
 # read whole Puppetfile
@@ -90,21 +85,8 @@ filecontent.each do |line|
     else
       in_mod  = false
       ret     = Utilities.write_mod_buffer(modbuffer, options, fh, fhupd, gitlabObj)
-      mod     = ret['mod']
-      project = ret['project']
-      ident   = ret['ident']
-      repo    = ret['repo']
-      tag     = ret['tag']
-      tagline = ret['tagline']
       cnt_new = cnt_new + ret['cnt_new']
       cnt_deprecated = cnt_deprecated + ret['cnt_deprecated']
-
-      # if !repo.empty? && !tag.empty? && !project.empty? && options.gitlab
-      #   counter        = Utilities.work_with_git_line(tagline, mod, project, repo, tag, options, fh, fhupd, gitlabObj, ident)
-      #   cnt_new        = cnt_new + counter['new']
-      #   cnt_deprecated = cnt_deprecated + counter['deprecated']
-      # end
-
       modbuffer = []
 
     end
@@ -135,20 +117,8 @@ end
 # if there's a buffer left write it to the files
 unless modbuffer.empty?
   ret     = Utilities.write_mod_buffer(modbuffer, options, fh, fhupd, gitlabObj)
-  mod     = ret['mod']
-  project = ret['project']
-  ident   = ret['ident']
-  repo    = ret['repo']
-  tag     = ret['tag']
-  tagline = ret['tagline']
   cnt_new = cnt_new + ret['cnt_new']
   cnt_deprecated = cnt_deprecated + ret['cnt_deprecated']
-
-  # if !repo.empty? && !tag.empty? && !project.empty? && options.gitlab
-  #   counter        = Utilities.work_with_git_line(tagline, mod, project, repo, tag, options, fh, fhupd, gitlabObj, ident)
-  #   cnt_new        = cnt_new + counter['new']
-  #   cnt_deprecated = cnt_deprecated + counter['deprecated']
-  # end
 end
 
 # write report footer
